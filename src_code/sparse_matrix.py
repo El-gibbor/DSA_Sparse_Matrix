@@ -98,21 +98,21 @@ class SparseMatrix:
         ):
             raise ValueError('Matrix dimension of both files must be equal')
 
-        result = SparseMatrix(
+        ops_result = SparseMatrix(
             total_rows=self.total_rows,
             total_cols=self.total_cols
         )
 
         # add elements from the current matrix
         for (row, col), value in self.sparse_elems.items():
-            result.set_element(row, col, value)
+            ops_result.set_element(row, col, value)
 
         # Add elements from the incoming operand (2nd sparse matrix)
         for (col, row), value in self.sparse_elems.items():
-            curr_sparse_value = result.get_element(row, col)
-            result.set_element(row, col, curr_sparse_value + value)
+            curr_sparse_value = ops_result.get_element(row, col)
+            ops_result.set_element(row, col, curr_sparse_value + value)
 
-        return result
+        return ops_result
 
     def write_to_file(self, out_file):
         """
@@ -124,7 +124,7 @@ class SparseMatrix:
             output_file.write(f'rows={self.total_rows}\n')
             output_file.write(f'cols={self.total_cols}\n')
 
-            # The write non zero elements in a sorted format
+            # The write non zero elements in a sorted order
             sorted_result = sorted(self.sparse_elems.items())
             for (row, col), value in sorted_result:
                 output_file.write(f'{row}, {col}, {value}\n')
