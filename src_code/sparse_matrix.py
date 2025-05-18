@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-
+""" Sparse matrix operations: load from file, perform addition, subtraction,
+multiplication, and write results to a file.
+"""
 import ast
 
 
@@ -25,7 +27,6 @@ class SparseMatrix:
     def load_input_file(self, file_path):
         """ loads the matrix data from the given file """
         with open('file_path', 'r') as file_lines:
-
             # get row and col number from the first 2 rows in the file
             total_row = file_lines.readline()[5:]
             total_col = file_lines.readline()[5:]
@@ -37,7 +38,6 @@ class SparseMatrix:
                 each_line = each_line.strip()  # ignore whitespaces
 
                 if each_line:
-
                     # handle wrong formats: float values or different brackets
                     try:
                         data = ast.literal_eval(each_line)
@@ -56,4 +56,4 @@ class SparseMatrix:
                     # store non-zero values
                     if value > 0:
                         self.sparse_elems[(row, col)] = value
-                        
+
