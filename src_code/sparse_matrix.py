@@ -114,7 +114,6 @@ class SparseMatrix:
 
         return result
 
-
     def write_to_file(self, out_file):
         """
         Writes the result of a sparse matrix operation to a file
