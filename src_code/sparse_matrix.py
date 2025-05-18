@@ -111,5 +111,21 @@ class SparseMatrix:
         for (col, row), value in self.sparse_elems.items():
             curr_sparse_value = result.get_element(row, col)
             result.set_element(row, col, curr_sparse_value + value)
-            
+
         return result
+
+
+    def write_to_file(self, out_file):
+        """
+        Writes the result of a sparse matrix operation to a file
+        in the specified format.
+        """
+        with open(out_file, 'w') as output_file:
+            # write the dimension of the matrix
+            output_file.write(f'rows={self.total_rows}\n')
+            output_file.write(f'cols={self.total_cols}\n')
+
+            # The write non zero elements in a sorted format
+            sorted_result = sorted(self.sparse_elems.items())
+            for (row, col), value in sorted_result:
+                output_file.write(f'{row}, {col}, {value}\n')
