@@ -90,3 +90,26 @@ class SparseMatrix:
         else:
             self.sparse_elems[(elem_row, elem_row)] = value
 
+    def add_operation(self, matrxi_b):
+        """ Add another sparse matrix to this one and return the sum. """
+        if (
+            self.total_rows != matrxi_b.total_rows or
+            self.total_cols != matrxi_b.total_cols
+        ):
+            raise ValueError('Matrix dimension of both files must be equal')
+
+        result = SparseMatrix(
+            total_rows=self.total_rows,
+            total_cols=self.total_cols
+        )
+
+        # add elements from the current matrix
+        for (row, col), value in self.sparse_elems.items():
+            result.set_element(row, col, value)
+
+        # Add elements from the incoming operand (2nd sparse matrix)
+        for (col, row), value in self.sparse_elems.items():
+            curr_sparse_value = result.get_element(row, col)
+            result.set_element(row, col, curr_sparse_value + value)
+            
+        return result
