@@ -57,3 +57,36 @@ class SparseMatrix:
                     if value > 0:
                         self.sparse_elems[(row, col)] = value
 
+    def get_element(self, elem_row, elem_col):
+        """
+        get the value at this specific locatio
+        Args:
+            elem_row(int): index of the current row
+            elem_col(int): index of the current column
+        Returns:
+            the value at the specified position (0 if not set)
+        """
+        return self.sparse_elems.get((elem_row, elem_col), 0)
+
+    def set_element(self, elem_row, elem_col, value):
+        """
+        set the value at this specific location
+        Args:
+            elem_row(int): index of the current row
+            elem_col(int): index of the current column
+            value(int): value to set
+        Returns:
+            the value at the specified position (0 if not set)
+        """
+        if (
+            elem_row < 0 or elem_row >= self.total_rows or
+            elem_col < 0 or elem_col >= self.total_cols
+        ):
+            raise IndexError("Matrix indices out of range")
+
+        # remove zero vals and store only none-zero vals
+        if value == 0:
+            self.sparse_elems.pop((elem_row, elem_row), None)
+        else:
+            self.sparse_elems[(elem_row, elem_row)] = value
+
