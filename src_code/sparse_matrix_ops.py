@@ -3,40 +3,51 @@
 
 from sparse_matrix import SparseMatrix
 
+
 class SparseMatrixOperation:
 
     @staticmethod
-    def add_ops(matrix_a: SparseMatrix, matrix_b: SparseMatrix) -> SparseMatrix:
+    def add_ops(matrix_a: SparseMatrix, matrix_b: SparseMatrix):
         if (
             matrix_a.total_rows != matrix_b.total_rows or
             matrix_a.total_cols != matrix_b.total_cols
         ):
             raise ValueError('Matrix dimension of both files must be equal')
 
-        result = SparseMatrix(total_rows=matrix_a.total_rows, total_cols=matrix_a.total_cols)
+        ops_result = SparseMatrix(
+            total_rows=matrix_a.total_rows, total_cols=matrix_a.total_cols
+        )
 
-        all_positions = set(matrix_a.sparse_elems.keys()) | set(matrix_b.sparse_elems.keys())
+        # Copy all elements from matrix A
+        for (row, col), value in matrix_a.sparse_elems.items():
+            ops_result.set_element(row, col, value)
 
-        for row, col in all_positions:
-            value = matrix_a.get_element(row, col) + matrix_b.get_element(row, col)
-            result.set_element(row, col, value)
+        # Add values from matrix B to the existing ones
+        for (row, col), value in matrix_b.sparse_elems.items():
+            current = ops_result.get_element(row, col)
+            ops_result.set_element(row, col, current + value)
 
-        return result
+        return ops_result
 
     @staticmethod
-    def subtract_ops(matrix_a: SparseMatrix, matrix_b: SparseMatrix) -> SparseMatrix:
+    def subtract_ops(matrix_a: SparseMatrix, matrix_b: SparseMatrix):
         if (
             matrix_a.total_rows != matrix_b.total_rows or
             matrix_a.total_cols != matrix_b.total_cols
         ):
             raise ValueError('Matrix dimension of both files must be equal')
 
-        result = SparseMatrix(total_rows=matrix_a.total_rows, total_cols=matrix_a.total_cols)
+        ops_result = SparseMatrix(
+            total_rows=matrix_a.total_rows, total_cols=matrix_a.total_cols
+        )
 
-        all_positions = set(matrix_a.sparse_elems.keys()) | set(matrix_b.sparse_elems.keys())
+        # Start with all elements from matrix A
+        for (row, col), value in matrix_a.sparse_elems.items():
+            ops_result.set_element(row, col, value)
 
-        for row, col in all_positions:
-            value = matrix_a.get_element(row, col) - matrix_b.get_element(row, col)
-            result.set_element(row, col, value)
+        # Subtract elements from matrix B
+        for (row, col), value in matrix_b.sparse_elems.items():
+            current = ops_result.get_element(row, col)
+            ops_result.set_element(row, col, current - value)
 
-        return result
+        return ops_result

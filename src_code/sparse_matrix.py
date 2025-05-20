@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Sparse matrix operations: load from file, and write results to a file.
 """
-import ast
 
 
 class SparseMatrix:
@@ -39,7 +38,8 @@ class SparseMatrix:
                     try:
                         # Ensure format is (row, col, value)
                         if not (each_line[0] == '(' and each_line[-1] == ')'):
-                            raise SyntaxError('Input file has wrong parenthesis format')
+                            raise SyntaxError(
+                                'Input file has wrong parenthesis format')
 
                         # Parse and strip each component
                         data = each_line[1:-1].split(',')
@@ -47,12 +47,15 @@ class SparseMatrix:
 
                         # Check if value is an int only (if dot is found in str -> float)
                         if (
-                            '.' in val_str.strip() or '.' in col_str.strip()
-                            or '.' in val_str.strip()
+                            '.' in row_str.strip() or
+                            '.' in col_str.strip() or '.' in val_str.strip()
                         ):
+
                             raise ValueError('Matrix value cannot be float')
 
-                        row, col, value = map(int, [row_str.strip(), col_str.strip(), val_str.strip()])
+                        row, col, value = map(
+                            int, [row_str.strip(), col_str.strip(),val_str.strip()]
+                        )
 
                         self.set_element(row, col, value)
 
