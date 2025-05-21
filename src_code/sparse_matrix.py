@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" Sparse matrix operations: load from file, and write results to a file.
+""" Sparse matrix operations: load from file, get and set element at
+a given row & column of a matrix and write results to a file.
 """
 
 
