@@ -14,7 +14,7 @@ def execute_sparse_matrix():
 
     try:
         ops = int(input('Select operation by inputting 1, 2 or 3: '))
-        if ops not in {1, 2, 3}:
+        if ops not in [1, 2, 3]:
             raise ValueError
 
         matrix_a_file = input('\nEnter path to first matrix file: ').strip()
@@ -53,8 +53,6 @@ def execute_sparse_matrix():
 
     except FileNotFoundError:
         print('\nError: One or both matrix files were not found!')
-    except ValueError:
-        print('\nError: Invalid operation input. Please enter 1, 2, or 3.')
 
 
 if __name__ == '__main__':
