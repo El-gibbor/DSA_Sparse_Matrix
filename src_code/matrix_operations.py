@@ -56,14 +56,18 @@ class SparseMatrixOperation:
 
     @staticmethod
     def multiply_ops(matrix_a: SparseMatrix, matrix_b: SparseMatrix):
+        """
+        returns the dot product of two vectors ie matrix a row & matrix b column
+        """
         if matrix_a.total_cols != matrix_b.total_rows:
             raise ValueError(
-                "Matrix A's columns must match Matrix B's rows for multiplication")
-    
+                "Matrix A's columns must match Matrix B's rows for multiplication"
+            )
+
         ops_result = SparseMatrix(
             total_rows=matrix_a.total_rows, total_cols=matrix_b.total_cols
         )
-    
+
         # Iterate over Matrix A's non-zero elements
         for (row_a, common), matrix_a_value in matrix_a.sparse_elems.items():
             # Directly scan Matrix B's elements for matching row_b == common
@@ -72,7 +76,5 @@ class SparseMatrixOperation:
                     curr_val = ops_result.get_element(row_a, col_b)
                     ops_result.set_element(
                         row_a, col_b, curr_val + matrix_a_value * matrix_b_value)
-    
-        return ops_result
 
         return ops_result
