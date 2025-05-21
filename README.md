@@ -38,5 +38,6 @@ python3 main.py
   `3` = Multiplication of sparse matrix  
 
 * Provide paths to two matrix files.
+  * ⚠️ **Note:** For Multiplication operation, the total columns of input file A must be equal to the total number of rows in input file B
 
 * The result will be saved in the `result_outputs/` directory with an auto-generated filename.
