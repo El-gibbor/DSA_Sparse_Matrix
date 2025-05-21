@@ -14,8 +14,16 @@ cols=4
 ```
 
 * The first two lines define the matrix dimensions.
-* Each tuple represents a non-zero value at `(row, column, value)`.
-
+* Each tuple represents a non-zero value at `(row, column, value)`.  
+### Wrong Input Format
+If the input file has invalid formats like float values or different types of parenthesis, an error will be raised and the program will exit. below is an example of a wrong input file format
+```
+rows=3
+cols=4
+(0.9, 1, 5)
+(1, 2, 8.8)
+[2, 3, -2]
+```
 ---
 
 ### How to Run
