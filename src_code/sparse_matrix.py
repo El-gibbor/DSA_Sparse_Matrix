@@ -36,33 +36,25 @@ class SparseMatrix:
                 each_line = each_line.strip()  # ignore whitespaces
 
                 if each_line:
-                    try:
-                        # Ensure format is (row, col, value)
-                        if not (each_line[0] == '(' and each_line[-1] == ')'):
-                            raise SyntaxError(
-                                'Input file has wrong parenthesis format')
+                    # Ensure format is valid input formats
+                    if not (each_line[0] == '(' and each_line[-1] == ')'):
+                        raise SyntaxError('Input file has wrong format')
 
-                        # Parse and strip each component
-                        data = each_line[1:-1].split(',')
-                        row_str, col_str, val_str = data
+                    # Parse and strip each component
+                    data = each_line[1:-1].split(',')
+                    row_str, col_str, val_str = data
 
-                        # Check if value is an int only (if dot is found in str -> float)
-                        if (
-                            '.' in row_str.strip() or
-                            '.' in col_str.strip() or '.' in val_str.strip()
-                        ):
+                    # Check if value is an int only (if dot is found in str -> float)
+                    if (
+                        '.' in row_str.strip() or
+                        '.' in col_str.strip() or '.' in val_str.strip()
+                    ):
+                        raise SyntaxError('Input file has wrong format')
 
-                            raise ValueError('Matrix value cannot be float')
-
-                        row, col, value = map(
-                            int, [row_str.strip(), col_str.strip(),val_str.strip()]
-                        )
-
-                        self.set_element(row, col, value)
-
-                    except (ValueError, SyntaxError):
-                        raise ValueError(
-                            'Input file has wrong format')
+                    row, col, value = map(
+                        int, [row_str.strip(), col_str.strip(),val_str.strip()]
+                    )
+                    self.set_element(row, col, value)
 
     def get_element(self, elem_row, elem_col):
         """
