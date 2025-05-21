@@ -55,26 +55,40 @@ class SparseMatrixOperation:
         return ops_result
 
     @staticmethod
-    def multiply_ops(matrix_a: SparseMatrix, matrix_b: SparseMatrix):
-        """
-        returns the dot product of two vectors ie matrix a row & matrix b column
-        """
+    def multiply_ops(matrix_a:SparseMatrix, matrix_b: SparseMatrix):
         if matrix_a.total_cols != matrix_b.total_rows:
-            raise ValueError(
-                "Matrix A's columns must match Matrix B's rows for multiplication"
+            raise SyntaxError(
+                'the first matrix total column must be the same as matrix_b total rows'
             )
 
-        ops_result = SparseMatrix(
-            total_rows=matrix_a.total_rows, total_cols=matrix_b.total_cols
-        )
+        ops_result = SparseMatrix(total_rows=matrix_a.total_rows, total_cols=matrix_b.total_cols)
 
-        # Iterate over Matrix A's non-zero elements
-        for (row_a, common), matrix_a_value in matrix_a.sparse_elems.items():
-            # Directly scan Matrix B's elements for matching row_b == common
-            for (row_b, col_b), matrix_b_value in matrix_b.sparse_elems.items():
-                if row_b == common:
-                    curr_val = ops_result.get_element(row_a, col_b)
-                    ops_result.set_element(
-                        row_a, col_b, curr_val + matrix_a_value * matrix_b_value)
+        # Group all non-zero elements of 'matrix_b' by their row index
+        matrix_b_row_idx = {}
+
+        for (b_row, b_col), value in matrix_b.sparse_elems.items():
+            if b_row not in matrix_b_row_idx:
+                matrix_b_row_idx[b_row] = []
+            matrix_b_row_idx[b_row].append((b_col, value))
+
+        temp = {}  # holds computed result temporarily
+
+        for (a_row, a_col), a_value in matrix_a.sparse_elems.items():
+            # this will process only when theres matching rows in matrix b
+            if a_col in matrix_b_row_idx:
+                for b_col, b_value in matrix_b_row_idx[a_col]:
+                    ops_result_key = (a_row, b_col)
+
+                    if ops_result_key in temp:
+                        temp[ops_result_key] += a_value * b_value
+                    else:
+                        temp[ops_result_key] = a_value * b_value
+
+        # Set all nonzero values
+        for (row, col), value in temp.items():
+            if value != 0:
+                ops_result.set_element(row, col, value)
 
         return ops_result
+
+
