@@ -2,7 +2,7 @@
 
 import os
 from sparse_matrix import SparseMatrix
-from sparse_matrix_ops import SparseMatrixOperation
+from matrix_operations import SparseMatrixOperation
 
 
 def execute_sparse_matrix():
@@ -25,7 +25,7 @@ def execute_sparse_matrix():
         matrix_b = SparseMatrix(in_file=matrix_b_file)
 
         # Validate/create output directory
-        os.makedirs('output_ops', exist_ok=True)
+        os.makedirs('result_outputs', exist_ok=True)
 
         # Create a filename based on input filenames
         file_a = os.path.splitext(os.path.basename(matrix_a_file))[0]
@@ -43,7 +43,7 @@ def execute_sparse_matrix():
             output_filename = f'product_of_{file_a}_and_{file_b}.txt'
 
         # Write result to output file
-        output_path = os.path.join('output_ops', output_filename)
+        output_path = os.path.join('result_outputs', output_filename)
         result_matrix.write_to_file(output_path)
 
         print('\nSparse Matrix operation completed successfully!')
